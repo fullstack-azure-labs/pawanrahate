@@ -1,134 +1,536 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-    <title>Sidebar With Bootstrap</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawan Rahate — Senior Lead (.NET Full‑Stack & Azure)</title>
+  <meta name="description" content="Pawan Rahate — Senior Lead (.NET Full-Stack & Azure). 13+ years building enterprise systems with .NET, Angular, and Azure." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1f20;
+      --bg-2:#0f2d30;
+      --card:#123932;
+      --muted:#93a3c6;
+      --text:#e9efff;
+      --brand:#6aa9ff;
+      --brand-2:#4df0d9;
+      --accent:#ffd166;
+      --ok:#52ffa8;
+      --danger:#ff6b6b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --radius-sm:12px;
+      --glass: rgba(255,255,255,0.06);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,var(--bg),var(--bg-2));color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    img{max-width:100%;display:block}
+
+    /* Header / Hero */
+    header{
+      position:relative;
+      overflow:hidden;
+      background: radial-gradient(1200px 600px at 80% -20%, rgba(77,240,217,.18), transparent 60%),
+                  radial-gradient(900px 500px at 0% 0%, rgba(106,169,255,.16), transparent 60%),
+                  linear-gradient(180deg,rgba(255,255,255,.02),transparent 20%);
+    }
+    .nav{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(10,15,35,.75), rgba(10,15,35,.35));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav .wrap{
+      max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;
+      padding:14px 20px;
+    }
+    .brand{display:flex;gap:12px;align-items:center;font-weight:800;letter-spacing:.2px}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 0 22px rgba(106,169,255,.8)}
+    .nav a {color:var(--text);opacity:.9}
+    .nav ul{list-style:none;display:flex;gap:18px;margin:0;padding:0}
+    .nav a.link{padding:8px 12px;border-radius:10px}
+    .nav a.link.active,.nav a.link:hover{background:rgba(255,255,255,.06)}
+
+    .hero{
+      max-width:1200px;margin:0 auto;padding:72px 20px 56px;display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:center;
+    }
+    @media (max-width:980px){.hero{grid-template-columns:1fr;gap:16px}}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;padding:6px 10px;
+      background:linear-gradient(135deg, rgba(77,240,217,.12), rgba(106,169,255,.12));
+      border:1px solid rgba(255,255,255,.12);
+      color:#dff8ff;border-radius:999px;font-size:12px;letter-spacing:.2px
+    }
+    h1{font-size:42px;line-height:1.15;margin:14px 0 10px}
+    .typing{color:var(--brand-2);font-weight:700}
+    .sub{color:var(--muted);max-width:58ch}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{
+      padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.14);
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#071018;
+      font-weight:700;box-shadow:var(--shadow)
+    }
+    .btn.secondary{
+      background:transparent;color:var(--text);border-color:rgba(255,255,255,.16)
+    }
+    .stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px}
+    .stat{flex:1 1 160px;background:var(--glass);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px}
+    .stat .num{font-size:28px;font-weight:800}
+    .stat .lbl{color:var(--muted);font-size:13px}
+
+    .card-visual{
+      position:relative;min-height:400px;background:
+        radial-gradient(140px 140px at 75% 25%, rgba(77,240,217,.2), transparent 60%),
+        radial-gradient(180px 180px at 20% 70%, rgba(106,169,255,.18), transparent 60%),
+        var(--glass);
+      border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px;overflow:hidden;box-shadow:var(--shadow)
+    }
+    .orbit{position:absolute;inset:-40px;background:conic-gradient(from 0deg, rgba(77,240,217,.25), rgba(106,169,255,.25), transparent 75%);filter:blur(40px);animation:spin 18s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .ticker{position:absolute;bottom:0;left:0;right:0;white-space:nowrap;overflow:hidden;border-top:1px dashed rgba(255,255,255,.1)}
+    .ticker span{display:inline-block;padding:12px 24px;color:#cfe8ff;opacity:.9;animation:marquee 24s linear infinite}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+    /* Sections */
+    section{max-width:1200px;margin:0 auto;padding:56px 20px}
+    .section-title{font-size:26px;margin:0 0 18px}
+    .muted{color:var(--muted)}
+
+    .grid{display:grid;gap:16px}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    @media (max-width:980px){.grid-3,.grid-2{grid-template-columns:1fr}}
+
+    .card{
+      background:var(--glass);border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;padding:16px;box-shadow:var(--shadow);transition:transform .3s ease, border-color .3s ease
+    }
+    .card:hover{transform:translateY(-4px);border-color:rgba(77,240,217,.35)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .chip{
+      padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);font-size:12px;color:#d7e7ff
+    }
+
+    /* Timeline */
+    .timeline{position:relative;margin-top:8px}
+    .timeline::before{
+      content:"";position:absolute;left:14px;top:0;bottom:0;width:2px;background:linear-gradient(var(--brand),transparent);
+      opacity:.6
+    }
+    .line-grow{position:absolute;left:14px;top:0;width:2px;background:linear-gradient(180deg,var(--brand-2),transparent);height:0;transition:height 1.2s ease}
+    .item{position:relative;padding-left:36px;margin:0 0 16px;padding-bottom:10px;}
+    .item::before{content:"";position:absolute;left:8px;top:6px;width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 0 16px rgba(106,169,255,.8)}
+
+    /* Awards / certs */
+    .award{display:flex;gap:12px;align-items:flex-start;padding-bottom:10px;}
+    .award .icon{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#ffe9a6);box-shadow:0 0 14px rgba(255,209,102,.6)}
+
+    /* Footer */
+    footer{padding:32px 20px;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:var(--muted)}
+
+    /* Reveal animations */
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.on{opacity:1;transform:none}
+
+    /* Active nav link */
+    .active{outline:none}
+
+    /* Small helpers */
+    .mono{font-variant-numeric:tabular-nums}
+    .nowrap{white-space:nowrap}
+  </style>
 </head>
-
 <body>
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <aside id="sidebar">
-            <div class="h-100">
-                <div class="sidebar-logo">
-                    <a href="#">CodzSword</a>
-                </div>
-                <!-- Sidebar Navigation -->
-                <ul class="sidebar-nav">
-                    <li class="sidebar-header">
-                        Tools & Components
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fa-solid fa-list pe-2"></i>
-                            Profile
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
-                            aria-expanded="false" aria-controls="pages">
-                            <i class="fa-regular fa-file-lines pe-2"></i>
-                            Pages
-                        </a>
-                        <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Analytics</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Ecommerce</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Crypto</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
-                            aria-expanded="false" aria-controls="dashboard">
-                            <i class="fa-solid fa-sliders pe-2"></i>
-                            Dashboard
-                        </a>
-                        <ul id="dashboard" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Dashboard Analytics</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Dashboard Ecommerce</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
-                            aria-expanded="false" aria-controls="auth">
-                            <i class="fa-regular fa-user pe-2"></i>
-                            Auth
-                        </a>
-                        <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Login</a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Register</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-header">
-                        Multi Level Nav
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#multi"
-                            aria-expanded="false" aria-controls="multi">
-                            <i class="fa-solid fa-share-nodes pe-2"></i>
-                            Multi Level
-                        </a>
-                        <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#multi-two" aria-expanded="false" aria-controls="multi-two">
-                                    Two Links
-                                </a>
-                                <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse">
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">Link 1</a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                        <a href="#" class="sidebar-link">Link 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-        <!-- Main Component -->
-        <div class="main">
-            <nav class="navbar navbar-expand px-3 border-bottom">
-                <!-- Button for sidebar toggle -->
-                <button class="btn" type="button" data-bs-theme="white">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
-            <main class="content px-3 py-2">
-                <div class="container-fluid">
-                    <div class="mb-3">
-                        <h3>Bootstrap Sidebar Tutorial</h3>
-                    </div>
-                </div>
-            </main>
+  <header id="top">
+    <nav class="nav">
+      <div class="wrap">
+        <div class="brand">
+          <span class="dot"></span>
+          <a href="#top"><strong>Pawan Rahate</strong></a>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
-    <script src="script.js"></script>
-</body>
+        <ul>
+          <li><a class="link" href="#about">About</a></li>
+          <li><a class="link" href="#skills">Skills</a></li>
+          <li><a class="link" href="#experience">Experience</a></li>
+          <li><a class="link" href="#awards">Awards</a></li>
+          <li><a class="link" href="#education">Education</a></li>
+          <li><a class="link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
 
+    <div class="hero">
+      <div class="reveal on">
+        <span class="badge">Top Talent — Zensar (2024 & 2025)</span>
+        <h1>Senior Lead — <span class="nowrap">.NET Full‑Stack</span> & Azure</h1>
+        <p class="sub">
+          I design and lead scalable enterprise platforms with .NET, Angular, and Azure—leveling up UX, reliability, and performance.
+          Recognized for execution, clarity, and building teams that ship.
+        </p>
+        <p class="sub">
+          <strong class="typing" aria-live="polite"></strong>
+        </p>
+        <div class="cta">
+          <a class="btn" href="assets/PawanRahate-13Years-CV-ATS.pdf" download>Download resume</a>
+          <a class="btn secondary" href="#contact">Get in touch</a>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="num mono" data-count="13">0</div>
+            <div class="lbl">Years experience</div>
+          </div>
+          <div class="stat">
+            <div class="num mono" data-count="6">0</div>
+            <div class="lbl">Years in .NET Core, Angular, Azure</div>
+          </div>
+          <div class="stat">
+            <div class="num mono" data-count="100000">0</div>
+            <div class="lbl">Transactions/day handled</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-visual reveal on" aria-hidden="true">
+        <div class="orbit"></div>
+        <div style="position:absolute;inset:18px;border-radius:14px;border:1px solid rgba(255,255,255,.08);padding:14px;background:rgba(255,255,255,.02)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="card">
+              <strong>Microservices @ scale</strong>
+              <p class="muted">.NET Core, Azure App Services, Service Bus, APIM.</p>
+            </div>
+            <div class="card">
+              <strong>Front‑end UX uplift</strong>
+              <p class="muted">Angular 11+, performance tuning, 75%+ better UX.</p>
+            </div>
+            <div class="card">
+              <strong>Resilience</strong>
+              <p class="muted">Observability with AppInsights, alerts, auto‑healing.</p>
+            </div>
+            <div class="card">
+              <strong>Security</strong>
+              <p class="muted">JWT, Key Vault, RBAC, least privilege.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ticker" style="padding-top:100px;"><span>Azure • .NET Core • Angular • Web API • SQL Server • AppInsights • Functions • Service Bus • APIM • Key Vault • Redis • CI/CD • TDD • Agile</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about">
+      <h2 class="section-title">About</h2>
+      <div class="grid grid-2">
+        <div class="card reveal">
+          <p>
+            I’m a .NET Technical Lead with 13+ years across architecture, development, and delivery. I guide cross‑functional teams from concept to prod, resolving ambiguity, and aligning work to outcomes.
+          </p>
+          <p class="muted">
+            I modernize legacy stacks, drive performance (up to 90% gains), and ship secure, cloud‑ready services with clear documentation, dashboards, and guardrails.
+          </p>
+          <div class="chips">
+            <span class="chip">Pune, Maharashtra</span>
+            <span class="chip">Hybrid / Remote friendly</span>
+            <span class="chip">Leadership & Mentoring</span>
+            <span class="chip">DevOps & CI/CD</span>
+          </div>
+        </div>
+        <div class="card reveal">
+          <strong>Selected impact</strong>
+          <ul>
+            <li>Led 11+ engineers to deliver multiple Angular apps with 80% faster loads, 75% UX uplift.</li>
+            <li>Engineered .NET Core microservices handling 100k+ daily transactions with resilience.</li>
+            <li>Refactored legacy codebases, reducing latency and boosting throughput by ~90%.</li>
+          </ul>
+          <p class="muted">I value clarity, maintainability, and calm execution under pressure.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2 class="section-title">Skills</h2>
+      <div class="grid grid-3">
+        <div class="card reveal">
+          <strong>Programming & Frameworks</strong>
+          <div class="chips">
+            <span class="chip">C#</span><span class="chip">.NET Core</span><span class="chip">ASP.NET MVC</span>
+            <span class="chip">Web API</span><span class="chip">Entity Framework Core</span><span class="chip">LINQ</span>
+            <span class="chip">SignalR</span><span class="chip">JWT</span>
+          </div>
+        </div>
+        <div class="card reveal">
+          <strong>Web & UI</strong>
+          <div class="chips">
+            <span class="chip">Angular 11+</span><span class="chip">TypeScript</span><span class="chip">JavaScript</span>
+            <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">Bootstrap</span>
+            <span class="chip">jQuery</span><span class="chip">UX</span>
+          </div>
+        </div>
+        <div class="card reveal">
+          <strong>Azure & Cloud</strong>
+          <div class="chips">
+            <span class="chip">App Services</span><span class="chip">AppInsights</span><span class="chip">Functions</span>
+            <span class="chip">Storage</span><span class="chip">Search</span><span class="chip">Event Grid</span>
+            <span class="chip">Service Bus</span><span class="chip">APIM</span><span class="chip">Key Vault</span>
+            <span class="chip">Azure SQL</span><span class="chip">Redis</span>
+          </div>
+        </div>
+        <div class="card reveal">
+          <strong>Databases</strong>
+          <div class="chips">
+            <span class="chip">SQL Server</span><span class="chip">Cosmos DB</span>
+          </div>
+        </div>
+        <div class="card reveal">
+          <strong>SDLC & Practices</strong>
+          <div class="chips">
+            <span class="chip">Agile (Scrum/Kanban)</span><span class="chip">DevOps</span><span class="chip">CI/CD</span>
+            <span class="chip">TDD</span><span class="chip">Code Reviews</span>
+          </div>
+        </div>
+        <div class="card reveal">
+          <strong>Tools</strong>
+          <div class="chips">
+            <span class="chip">Visual Studio</span><span class="chip">VS Code</span><span class="chip">Git</span>
+            <span class="chip">Postman</span><span class="chip">SoapUI</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2 class="section-title">Experience</h2>
+      <div class="card reveal">
+        <div class="timeline">
+          <div class="line-grow" id="line"></div>
+
+          <div class="item">
+            <strong>Zensar Technologies Ltd — Senior Lead</strong>
+            <div class="muted">Pune • Apr 2025 – Present</div>
+            <p>Directing delivery across Angular-based platforms, elevating UX and performance while mentoring leads.</p>
+          </div>
+
+          <div class="item">
+            <strong>Zensar Technologies Ltd — Lead (Assistant Manager)</strong>
+            <div class="muted">Pune • Oct 2022 – Apr 2025</div>
+            <ul>
+              <li>Scaled microservices on .NET Core to >100,000 daily transactions with Azure resilience.</li>
+              <li>Partnered with product to align scope, sequencing, and measurable outcomes.</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <strong>Zensar Technologies Inc — Computer Programmer</strong>
+            <div class="muted">USA • Apr 2017 – Apr 2022</div>
+            <p>Delivered enterprise features, optimized legacy workloads, and drove 90% performance improvements.</p>
+          </div>
+
+          <div class="item">
+            <strong>Zensar Technologies Ltd — Senior Software Engineer</strong>
+            <div class="muted">Pune • Jan 2015 – Mar 2017</div>
+            <p>Shipped critical modules, enforced coding standards, and mentored juniors on .NET best practices.</p>
+          </div>
+
+          <div class="item">
+            <strong>Information System Resource Center Pvt. Ltd — Software Programmer</strong>
+            <div class="muted">Pune • Sep 2013 – Jan 2015</div>
+            <ul>
+              <li>Translated complex requirements into robust solutions and led peer reviews.</li>
+              <li>Built a reusable jQuery grid component adopted org‑wide.</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <strong>Encodex Telesystems — Jr. Software Engineer</strong>
+            <div class="muted">Mar 2012 – Sep 2013</div>
+            <p>Improved app performance (−60% wait times) and contributed to a complex JavaScript 3D module.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="awards">
+      <h2 class="section-title">Awards & certifications</h2>
+      <div class="grid grid-2">
+        <div class="card reveal">
+          <strong>Awards</strong>
+          <div class="award" style="margin-top:10px">
+            <span class="icon"></span>
+            <div>
+              <div>Top Talent — Zensar Technologies (2024 & 2025)</div>
+              <div class="muted">Recognized for excellence, innovation, and leadership.</div>
+            </div>
+          </div>
+          <div class="award">
+            <span class="icon"></span>
+            <div>
+              <div>Star Performer — Zensar (2020 quarterly, 2017 annual)</div>
+            </div>
+          </div>
+          <div class="award">
+            <span class="icon"></span>
+            <div>
+              <div>Star Performer — ISRC Pvt. Ltd (2014 quarterly)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <strong>Certifications</strong>
+          <ul>
+            <li style="padding-bottom:10px;">Microsoft AZ‑900 — Azure Fundamentals</li>
+            <li style="padding-bottom:10px;">Skillsoft — Building & Testing RESTful Services</li>
+            <li style="padding-bottom:10px;">Skillsoft — Azure Monitoring</li>
+            <li style="padding-bottom:10px;">Skillsoft — Agile Processes for DevOps</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2 class="section-title">Education</h2>
+      <div class="grid grid-2">
+        <div class="card reveal">
+          <strong>MCA — Sant Gadge Baba Amravati University</strong>
+          <div class="muted">Jul 2008 – Jun 2011</div>
+        </div>
+        <div class="card reveal">
+          <strong>B.Sc. (Computer Science) — Vidyabharati College</strong>
+          <div class="muted">Jul 2005 – Jun 2008</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title">Contact</h2>
+      <div class="grid grid-2">
+        <div class="card reveal">
+          <p>
+            Pune, Maharashtra 411057 • India
+            <br/>
+            <a href="mailto:pawan.rahate587@hotmail.com">pawan.rahate587@hotmail.com</a>
+            <br/>
+            <a href="tel:+918080718336">+91 80807 18336</a>
+            <br/>
+            <a href="https://www.linkedin.com/in/pawan-rahate/" target="_blank" rel="noopener">LinkedIn: pawan-rahate</a>
+          </p>
+          <div class="chips">
+            <span class="chip">Open to leadership roles</span>
+            <span class="chip">Architecture & Delivery</span>
+            <span class="chip">Mentoring</span>
+          </div>
+        </div>
+        <div class="card reveal">
+          <form onsubmit="event.preventDefault(); alert('Thanks Pawan! This is a static demo — wire this to your backend or use form services.');">
+            <div style="display:grid;gap:10px">
+              <input aria-label="Name" required name="name" placeholder="Your name" style="padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:var(--text)"/>
+              <input aria-label="Email" required name="email" type="email" placeholder="Your email" style="padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:var(--text)"/>
+              <textarea aria-label="Message" required name="message" placeholder="Project, role, or question…" rows="4" style="padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:var(--text)"></textarea>
+              <button class="btn" type="submit">Send message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Pawan Rahate — Built with .NET, Angular, and care.
+  </footer>
+
+  <script>
+    // Smooth scroll and active link highlighting
+    const links = document.querySelectorAll('.nav a.link');
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const opts = { rootMargin: '-30% 0px -60% 0px', threshold: 0 };
+
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          links.forEach(l=>l.classList.remove('active'));
+          const id = e.target.id;
+          const active = document.querySelector('.nav a.link[href="#'+id+'"]');
+          if(active) active.classList.add('active');
+        }
+      });
+    }, opts);
+    sections.forEach(s=>obs.observe(s));
+
+    // Reveal on scroll
+    const revObs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('on'); revObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+    // Counters
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    const runCounter = (el, to, duration=1400) => {
+      let start=null;
+      const isBig = to >= 1000;
+      const fmt = n => isBig ? n.toLocaleString() : n.toString();
+      const step = ts => {
+        if(!start) start = ts;
+        const p = Math.min(1, (ts - start)/duration);
+        const val = Math.floor(easeOut(p) * to);
+        el.textContent = fmt(val);
+        if(p<1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const statObs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const n = +e.target.getAttribute('data-count');
+          runCounter(e.target, n);
+          statObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('.stat .num').forEach(n=>statObs.observe(n));
+
+    // Timeline line grow
+    const line = document.getElementById('line');
+    const tl = document.querySelector('.timeline');
+    const lineObs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const h = tl.scrollHeight;
+          line.style.height = (h - 20) + 'px';
+          lineObs.unobserve(tl);
+        }
+      });
+    }, { threshold: 0.3 });
+    if(tl) lineObs.observe(tl);
+
+    // Typing effect
+    const words = [
+      '.NET Core • Web API • EF Core',
+      'Angular 11+ • TypeScript • UX',
+      'Azure • App Services • Service Bus • APIM'
+    ];
+    const typingEl = document.querySelector('.typing');
+    let wi=0, ci=0, dir=1, pause=0;
+    function type(){
+      if(!typingEl) return;
+      const word = words[wi];
+      if(pause>0){ pause--; return requestAnimationFrame(type); }
+      ci += dir;
+      typingEl.textContent = word.slice(0, ci);
+      if(ci === word.length){ dir = -1; pause = 30; }
+      if(ci === 0){ dir = 1; wi = (wi+1) % words.length; pause = 10; }
+      setTimeout(type, 50);
+    }
+    type();
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
